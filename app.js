@@ -1,4 +1,11 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+import './src/database';
+
 import express from 'express';
+
 import homeRoute from './src/routes/homeRoute';
 
 class App {
