@@ -44,8 +44,10 @@ export default class User extends Model {
       sequelize,
     });
     this.addHook('beforeSave', async (user) => {
-      // eslint-disable-next-line no-param-reassign
-      user.password_hash = await bcrypt.hash(user.password, 8);
+      if (user.password) {
+        // eslint-disable-next-line no-param-reassign
+        user.password_hash = await bcrypt.hash(user.password, 8);
+      }
     });
 
     return this;

@@ -6,8 +6,7 @@ import './src/database';
 
 import express from 'express';
 
-import homeRoute from './src/routes/HomeRoute';
-import useRoute from './src/routes/UserRoute';
+import routes from './src/routes/Routes';
 
 class App {
   constructor() {
@@ -22,8 +21,7 @@ class App {
   }
 
   routes() {
-    this.app.use('/', homeRoute);
-    this.app.use('/user', useRoute);
+    this.app.use('/', routes);
   }
 }
 
