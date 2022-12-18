@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import homeController from '../controllers/homeController';
 import userController from '../controllers/userController';
+import tokenController from '../controllers/tokenController';
 
 class Routes {
   constructor() {
@@ -9,6 +10,7 @@ class Routes {
 
     this.homeRoutes();
     this.userRoutes();
+    this.tokenRoutes();
   }
 
   homeRoutes() {
@@ -21,6 +23,10 @@ class Routes {
     this.router.get('/user/:id', userController.show);
     this.router.put('/user/:id/update', userController.update);
     this.router.delete('/user/:id/delete', userController.delete);
+  }
+
+  tokenRoutes() {
+    this.router.post('/tokens/', tokenController.store);
   }
 }
 export default new Routes().router;
