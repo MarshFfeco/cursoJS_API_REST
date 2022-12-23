@@ -5,7 +5,9 @@ class UserController {
     try {
       const novoUser = await User.create(req.body);
 
-      return res.json(novoUser);
+      const { id, nome, email } = novoUser;
+
+      return res.json({ id, nome, email });
     } catch (e) {
       return res.status(400).json({
         Errors: e.errors.map((err) => err.message),
@@ -15,7 +17,7 @@ class UserController {
 
   async index(req, res) {
     try {
-      const users = await User.findAll();
+      const users = await User.findAll({ attributes: ['id', 'nome', 'email'] });
 
       return res.json(users);
     } catch (error) {
@@ -25,11 +27,11 @@ class UserController {
 
   async show(req, res) {
     try {
-      const { id } = req.params;
+      const user = await User.findByPk(req.params.id);
 
-      const user = await User.findByPk(id);
+      const { id, nome, email } = user;
 
-      return res.json(user);
+      return res.json({ id, nome, email });
     } catch (error) {
       return res.status(400).json({
         Errors: error.errors.map((err) => err.message),
@@ -39,17 +41,15 @@ class UserController {
 
   async update(req, res) {
     try {
-      const { id } = req.params;
-
-      if (!id) { return res.status(400).json({ Errors: ['Missing ID!'] }); }
-
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(req.userId);
 
       if (!user) { return res.status(400).json({ Errors: ['Missing User!'] }); }
 
       const newDateUser = await user.update(req.body);
 
-      return res.json(newDateUser);
+      const { nome, email } = newDateUser;
+
+      return res.json({ nome, email });
     } catch (error) {
       return res.status(400).json({
         Errors: error.errors.map((err) => err.message),
@@ -59,11 +59,7 @@ class UserController {
 
   async delete(req, res) {
     try {
-      const { id } = req.params;
-
-      if (!id) { return res.status(400).json({ Errors: ['Missing ID!'] }); }
-
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(req.userId);
 
       if (!user) { return res.status(400).json({ Errors: ['Missing User!'] }); }
 

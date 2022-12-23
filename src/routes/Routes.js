@@ -4,6 +4,8 @@ import homeController from '../controllers/homeController';
 import userController from '../controllers/userController';
 import tokenController from '../controllers/tokenController';
 
+import loginRequire from '../middlewares/loginRequire';
+
 class Routes {
   constructor() {
     this.router = new Router();
@@ -19,10 +21,11 @@ class Routes {
 
   userRoutes() {
     this.router.get('/user/index', userController.index);
-    this.router.post('/user/store', userController.store);
     this.router.get('/user/:id', userController.show);
-    this.router.put('/user/:id/update', userController.update);
-    this.router.delete('/user/:id/delete', userController.delete);
+
+    this.router.post('/user/', userController.store);
+    this.router.put('/user/', loginRequire, userController.update);
+    this.router.delete('/user/', loginRequire, userController.delete);
   }
 
   tokenRoutes() {
