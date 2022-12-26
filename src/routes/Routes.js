@@ -3,6 +3,7 @@ import { Router } from 'express';
 import homeController from '../controllers/homeController';
 import userController from '../controllers/userController';
 import tokenController from '../controllers/tokenController';
+import alunoController from '../controllers/alunoController';
 
 import loginRequire from '../middlewares/loginRequire';
 
@@ -13,6 +14,7 @@ class Routes {
     this.homeRoutes();
     this.userRoutes();
     this.tokenRoutes();
+    this.alunoRoutes();
   }
 
   homeRoutes() {
@@ -20,12 +22,21 @@ class Routes {
   }
 
   userRoutes() {
-    this.router.get('/user/index', userController.index);
-    this.router.get('/user/:id', userController.show);
+    // Nâo deveria existir
+    // this.router.get('/user/index', userController.index);
+    // this.router.get('/user/:id', userController.show);
 
     this.router.post('/user/', userController.store);
     this.router.put('/user/', loginRequire, userController.update);
     this.router.delete('/user/', loginRequire, userController.delete);
+  }
+
+  alunoRoutes() {
+    this.router.get('/aluno/', alunoController.index);
+    this.router.get('/aluno/:id', alunoController.show);
+    this.router.post('/aluno/', loginRequire, alunoController.store);
+    this.router.put('/aluno/:id', loginRequire, alunoController.update);
+    this.router.delete('/aluno/:id', loginRequire, alunoController.delete);
   }
 
   tokenRoutes() {
