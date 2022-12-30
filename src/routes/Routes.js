@@ -4,6 +4,7 @@ import homeController from '../controllers/homeController';
 import userController from '../controllers/userController';
 import tokenController from '../controllers/tokenController';
 import alunoController from '../controllers/alunoController';
+import photoController from '../controllers/photoController';
 
 import loginRequire from '../middlewares/loginRequire';
 
@@ -15,6 +16,7 @@ class Routes {
     this.userRoutes();
     this.tokenRoutes();
     this.alunoRoutes();
+    this.photoRoutes();
   }
 
   homeRoutes() {
@@ -23,7 +25,7 @@ class Routes {
 
   userRoutes() {
     // Nâo deveria existir
-    // this.router.get('/user/index', userController.index);
+    this.router.get('/user/index', userController.index);
     // this.router.get('/user/:id', userController.show);
 
     this.router.post('/user/', userController.store);
@@ -37,6 +39,10 @@ class Routes {
     this.router.post('/aluno/', loginRequire, alunoController.store);
     this.router.put('/aluno/:id', loginRequire, alunoController.update);
     this.router.delete('/aluno/:id', loginRequire, alunoController.delete);
+  }
+
+  photoRoutes() {
+    this.router.post(/photo/, loginRequire, photoController.store);
   }
 
   tokenRoutes() {

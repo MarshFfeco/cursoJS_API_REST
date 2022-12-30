@@ -2,15 +2,15 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User';
 
 export default async (req, res, next) => {
-  const { authorized } = req.headers;
+  const { authorization } = req.headers;
 
-  if (!authorized) {
+  if (!authorization) {
     return res.status(401).json({
       Errors: ['Login Required!'],
     });
   }
 
-  const [, token] = authorized.split(' ');
+  const [, token] = authorization.split(' ');
 
   try {
     const dados = jwt.verify(token, process.env.TOKENSECRET);

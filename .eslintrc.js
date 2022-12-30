@@ -13,5 +13,6 @@ module.exports = {
   rules: {
     'class-methods-use-this': 'off',
     'import/first': 'off',
+    camelcase: 'off',
   },
 };
