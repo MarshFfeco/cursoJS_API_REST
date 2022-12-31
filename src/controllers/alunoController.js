@@ -1,8 +1,16 @@
 import Aluno from '../models/Aluno';
+import Fotos from '../models/Fotos';
 
 class AlunoController {
   async index(req, res) {
-    const allAlunos = await Aluno.findAll();
+    const allAlunos = await Aluno.findAll({
+      attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
+      order: [['id', 'desc'], [Fotos, 'id', 'DESC']],
+      include: {
+        model: Fotos,
+        attributes: ['originalname', 'filename'],
+      },
+    });
 
     res.json(allAlunos);
   }
@@ -45,7 +53,14 @@ class AlunoController {
 
       if (!id) { return res.status(400).json({ Errors: ['Missing ID!'] }); }
 
-      const aluno = await Aluno.findByPk(id);
+      const aluno = await Aluno.findByPk(id, {
+        attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
+        order: [['id', 'desc'], [Fotos, 'id', 'DESC']],
+        include: {
+          model: Fotos,
+          attributes: ['url', 'originalname', 'filename'],
+        },
+      });
 
       if (!aluno) { return res.status(400).json({ Errors: ['Missing Aluno!'] }); }
 

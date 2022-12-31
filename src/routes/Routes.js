@@ -28,7 +28,7 @@ class Routes {
     this.router.get('/user/index', userController.index);
     // this.router.get('/user/:id', userController.show);
 
-    this.router.post('/user/', userController.store);
+    this.router.post('/user/', loginRequire, userController.store);
     this.router.put('/user/', loginRequire, userController.update);
     this.router.delete('/user/', loginRequire, userController.delete);
   }
